@@ -8,8 +8,14 @@ module WeakStrong.Function where
 
 infixr 9 _∘_
 
+------------------------------------------------------------------------
+-- The identity function
+
 id : {A : Set} → A → A
 id x = x
+
+------------------------------------------------------------------------
+-- Function composition
 
 _∘_ : {A B C : Set} → (B → C) → (A → B) → A → C
 g ∘ f = λ x → g (f x)
