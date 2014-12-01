@@ -5,9 +5,9 @@ The Weak and the Strong: Functors
 
 > Or not.
 
-When programming in functional languages such as Agda and Haskell, we
-usually define functions and then show that they satisfy a given
-specification. To that effect, we can
+When programming in functional languages such as [Agda][agda] and
+[Haskell][haskell], we usually define functions and then show that
+they satisfy a given specification. To that effect, we can
 
 - define functions with a weak specification and then show that they
   satisfy it via companion tests or proofs, or
@@ -15,48 +15,27 @@ specification. To that effect, we can
 - define functions with a strong specification which they satisfy by
   definition.
 
-As an example, let's consider the type signature of the `map` function
-in Haskell:
-
-```haskell
-map :: (a -> b) -> [a] -> [b]
-```
-
-The `map` function applies a function to each element of a list.
-
-According to the documentation, `map f xs` is the list obtained by applying
-`f` to each element of `xs`, that is,
-
-```haskell
-map f [x1, x2, ...] == [f x1, f x2, ...]
-```
-
-Together, the type signature and the informal description of the
-function are a weak specification of mapping over lists. We could
-define several map functions which satisfy the previous specification,
-but they're not the regular map function. With this in mind, we can
-think of the Functor type class, which generalizes the map function.
-The Functor class is used for types that can be mapped over.
+As an example, let's consider the `Functor` type class in Haskell,
+which is used for types that can be mapped over:
 
 ```haskell
 class Functor f where
   fmap :: (a -> b) -> f a -> f b
 ```
 
-This is still a weak specification, but the documentation says that
-"instances of Functor should satisfy the following laws:"
+Instances of `Functor` should satisfy the following laws:
 
 ```haskell
 fmap id      == id
 fmap (g . f) == fmap g . fmap f
 ```
 
-Which guarantee that f and fmap are actually a functor. In Haskell, we
-can test these or prove (by hand) in order to get a weak specification
-(doing this is still the programmer's responsibility).
+Declaring an instance of the `Functor` type class and then testing or
+proving these laws is how we define a functor with a weak
+specification in Haskell.
 
-Let's consider the [] (or list) functor, which is the list type
-constructor and the map function we discussed earlier.
+For example, this is the instance of `Functor` for lists, which
+satisfies the functor laws:
 
 ```haskell
 instance Functor [] where
@@ -64,10 +43,8 @@ instance Functor [] where
   fmap f (x:xs) = f x : fmap f xs
 ```
 
-In Haskell, this is not the only way to define a type checking
-instance, but we could prove the laws by hand or test them. In fact,
-the laws hold for this instance, but they're not part of the
-specification. In Agda, we can have the same weak specification:
+Now, defining functions with a strong specification usually relies on
+dependent types, which is why we'll take a look at functors in Agda:
 
 ```agda
 record RawFunctor (F : Set → Set) : Set₁ where
@@ -75,7 +52,20 @@ record RawFunctor (F : Set → Set) : Set₁ where
     fmap : ∀ {A B} → (A → B) → F A → F B
 ```
 
-And We can define map as follows:
+Declaring a `RawFunctor` record and then proving the functor laws is
+how we define a functor with a weak specification in Agda. In fact,
+this is how functors are defined in the Agda standard library right
+now.
+
+For example, this is the `RawFunctor` record for lists, which
+satisfies the functor laws:
+
+```agda
+rawFunctor : RawFunctor List
+rawFunctor = record { fmap = fmap }
+```
+
+where
 
 ```agda
 fmap : ∀ {A B} → (A → B) → List A → List B
@@ -83,18 +73,7 @@ fmap _ []       = []
 fmap f (x ∷ xs) = f x ∷ fmap f xs
 ```
 
-And our functor instance is just the List type constructor and the
-fmap function.
-
-```agda
-rawFunctor : RawFunctor List
-rawFunctor = record { fmap = fmap }
-```
-
-We could prove as companion lemmas that the laws hold. In fact, that's
-what Agda's standard library does. But we can also have a strong
-specification of functors, so that a functor is not just a type
-constructor and an fmap function, but also proofs of both laws.
+But we can include the functor laws in the definition of functors:
 
 ```agda
 record Functor (F : Set → Set) : Set₁ where
@@ -107,7 +86,10 @@ record Functor (F : Set → Set) : Set₁ where
               (fx : F A) → fmap (g ∘ f) fx ≡ fmap g (fmap f fx)
 ```
 
-Now, our instance for the List functors contains both proofs:
+Thus, declaring a `Functor` record is how we define a functor with a
+strong specification in Agda.
+
+For instance, here's the `Functor` record for lists:
 
 ```agda
 functor : Functor List
@@ -123,28 +105,26 @@ functor = record { fmap = fmap ; fmap-id = fmap-id ; fmap-∘ = fmap-∘ }
     fmap-∘ {f = f} {g} (x ∷ xs) = cong (_∷_ (g (f x))) (fmap-∘ xs)
 ```
 
-There is no way to define a functor which is not a functor (in this
-case, we know this is true because the specification comes from
-category theory. In other cases, of course, we could still have wrong
-specification or something like that.) Now our definition of the list
-functor contains a proof of the fact that it is in fact a functor in
-the mathematical sense.
+This is but one example of weak and strong specifications. Of course,
+strong specifications are more complex than weak ones, but they're
+also more explicit about the behavior of our functions and closer to
+the idea of having a certificate of the correctness of our programs.
 
-This is close to Adam Chlipala's idea of a certified program, which is
-the idea of a certificate or formal mathematical artifact proving that
-a program meets its specification. In this way, the type of these
-functions are more explicit about their behavior.
+What do you think?
 
-According to Adam Chlipala, the idea of a certified program has to do
-with the idea of a certificate or formal mathematical artifact proving
-that a program meets its specification.
+---
 
-According to Yves Bertot and Pierre Casterán, adding proof arguments
-to functions makes it possible to make the type of these functions
-more explicit about their behavior.
+For more on weak and strong specifications, and dependent types, see,
+for instance, Adam Chlipala's [Certified Programming with Dependent
+Types][cpdt], Yves Bertot and Pierre Casterán's [Interactive Theorem
+Proving and Program Development][coqart], and Ana Bove and Peter
+Dybjer's [Dependent Types at Work][dtw].
 
-So?
+(For the Agda and Haskell code, see
+<https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/>.)
 
-[1] Bertot, Yves and Pierre Casterán
-
-[12]: https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/
+[agda]:    http://wiki.portal.chalmers.se/agda/
+[coqart]:  http://www.labri.fr/perso/casteran/CoqArt/
+[cpdt]:    http://adam.chlipala.net/cpdt/
+[dtw]:     http://link.springer.com/chapter/10.1007/978-3-642-03153-3_2
+[haskell]: http://www.haskell.org/
