@@ -7,19 +7,21 @@ The Weak and the Strong: Functors
 
 Two approaches:
 
-- Weak specification. Define the function and then add companion lemmas.
-
-  Sometimes called external programming logic: we write a program in
-  an ordinary type system and afterwards we prove a property of it.
-  The property is a logical "comment".
+- Weak specification. Define the functions with a weak specification
+  and then add companion lemmas. According to Bove and Dybjer, this
+  approach is sometimes called external programming logic: we write a
+  program in an ordinary type system and afterwards we prove a
+  property of it, so the property is just a logical "comment".
 
 - Strong specification. The type of the function directly states that
-  the input is a value of type A and that the output is the
-  combination of a value b of type B and a proof that b satisfies R a
-  b. We produce a well-specified function. We rely on dependent types.
+  the output is the combination of a value and a proof. In this
+  approach, we also say that we produce a well-specified function, and
+  we usually rely on dependent types. According to Bove and Dybjer,
+  this approach is sometimes called integrated or internal programming
+  logic: the logic is integrated with the program.
 
-  Sometimes called integrated or internal programming logic: the logic
-  is integrated with the program.
+  In both cases, we're using Agda as a programming logic, we use the
+  system to prove properties of our programs.
 
 ```haskell
 map :: (a -> b) -> [a] -> [b]
@@ -92,14 +94,12 @@ functor = record { fmap = fmap ; fmap-id = fmap-id ; fmap-∘ = fmap-∘ }
     fmap-∘ {f = f} {g} (x ∷ xs) = cong (_∷_ (g (f x))) (fmap-∘ xs)
 ```
 
-The idea of a certified program has to do with the idea of a
-certificate, or formal mathematical artifact proving that a program
-meets its specification.
+According to Adam Chlipala, the idea of a certified program has to do
+with the idea of a certificate or formal mathematical artifact proving
+that a program meets its specification.
 
-Adding proof arguments to functions makes it possible to make the type
-of these functions more explicit about their behavior.
-
-Of course, this is not a real world example. Should we let the weak
-say, I am strong or not?
+According to Yves Bertot and Pierre Casterán, adding proof arguments
+to functions makes it possible to make the type of these functions
+more explicit about their behavior.
 
 [12]: https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/
