@@ -114,11 +114,12 @@ What do you think?
 
 ---
 
-For more on weak and strong specifications, and dependent types, see,
-for instance, Adam Chlipala's [Certified Programming with Dependent
-Types][cpdt], Yves Bertot and Pierre Casterán's [Interactive Theorem
-Proving and Program Development][coqart], and Ana Bove and Peter
-Dybjer's [Dependent Types at Work][dtw].
+(Based on a homework for [Dependently Typed Functional
+Languages][dtfl], chapter 9 of Yves Bertot and Pierre Casterán's
+[Interactive Theorem Proving and Program Development][coqart], some of
+Adam Chlipala's ideas on [Certified Programming with Dependent
+Types][cpdt], and section 6 of Ana Bove and Peter Dybjer's [Dependent
+Types at Work][dtw].)
 
 (You can get the code at
 <https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/>.)
@@ -126,5 +127,6 @@ Dybjer's [Dependent Types at Work][dtw].
 [agda]:    http://wiki.portal.chalmers.se/agda/
 [coqart]:  http://www.labri.fr/perso/casteran/CoqArt/
 [cpdt]:    http://adam.chlipala.net/cpdt/
+[dtfl]:    http://www1.eafit.edu.co/asicard/courses/dtfl-CB0683/
 [dtw]:     http://link.springer.com/chapter/10.1007/978-3-642-03153-3_2
 [haskell]: http://www.haskell.org/
