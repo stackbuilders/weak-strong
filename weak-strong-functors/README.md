@@ -16,7 +16,7 @@ they satisfy a given specification. To that effect, we can
   definition.
 
 As an example, let's consider the `Functor` type class in Haskell,
-which is used for types that can be mapped over:
+which is used for types that can be mapped over:[^1]
 
 ```haskell
 class Functor f where
@@ -120,8 +120,8 @@ Types][cpdt], Yves Bertot and Pierre Casterán's [Interactive Theorem
 Proving and Program Development][coqart], and Ana Bove and Peter
 Dybjer's [Dependent Types at Work][dtw].
 
-(For the Agda and Haskell code, see
-<https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/>.)
+[^1]: You can get the code at
+      <https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/>.
 
 [agda]:    http://wiki.portal.chalmers.se/agda/
 [coqart]:  http://www.labri.fr/perso/casteran/CoqArt/
