@@ -145,7 +145,7 @@ details are not clear, what matters now is that this definition of the
 `Functor` record for lists satisfies our specification because it
 contains actual proofs of the functor laws. Moreover, it's the only
 way to define a type checking `Functor` record for lists because there
-is now way to define a functor that is not a functor.
+is no way to define a functor that is not a functor.
 
 This is but one example of weak and strong specifications. Of course,
 strong specifications are more complex than weak ones, but they're
