@@ -45,7 +45,7 @@ instance Functor [] where
 
 Certainly, declaring the instance of `Functor` for lists is not
 enough. We need to test or prove that it satisfies the functor laws,
-but we're not gonna do that yet.
+but we're not going to do that yet.
 
 In order to see that thinking of the functor laws is important, let's
 consider an alternative instance of `Functor` for lists:
@@ -98,7 +98,7 @@ fmap f (x ∷ xs) = f x ∷ fmap f xs
 ```
 
 Again, we have to prove that `List` and `fmap` satisfy the functor
-laws, but we're not gonna do that yet.
+laws, but we're not going to do that yet.
 
 However, we can include the functor laws in the definition of functors
 so that there's no way to define a functor which is not a functor:
