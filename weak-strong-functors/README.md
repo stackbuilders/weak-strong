@@ -57,10 +57,9 @@ instance Functor [] where
 
 Even though this is a valid instance of `Functor`, it's not really a
 functor because it violates the functor laws. With a weak
-specification, ensuring that the functor laws hold is our
-responsibility, but we could use a strong specification in which we
-define a functor and, at the same time, prove that it is indeed a
-functor.
+specification, ensuring that the laws hold is our responsibility, but
+we could use a strong specification in which we define a functor and,
+at the same time, prove that it is indeed a functor.
 
 Now, defining functions with a strong specification usually relies on
 [dependent types](http://en.wikipedia.org/wiki/Dependent_type) or
@@ -101,8 +100,8 @@ fmap f (x ∷ xs) = f x ∷ fmap f xs
 Again, we have to prove that `List` and `fmap` satisfy the functor
 laws, but we're not gonna do that yet.
 
-However, we can include the functor laws in the definition of
-functors:
+However, we can include the functor laws in the definition of functors
+so that there's no way to define a functor which is not a functor:
 
 ```agda
 record Functor (F : Set → Set) : Set₁ where
@@ -144,8 +143,7 @@ equality is a reflexive and congruence relation. Even if the proofs'
 details are not clear, what matters now is that this definition of the
 `Functor` record for lists satisfies our specification because it
 contains actual proofs of the functor laws. Moreover, it's the only
-way to define a type checking `Functor` record for lists because there
-is no way to define a functor that is not a functor.
+way to define a type checking `Functor` record for lists.
 
 This is but one example of weak and strong specifications. Of course,
 strong specifications are more complex than weak ones, but they're
@@ -160,8 +158,8 @@ What do you think?
 Languages][dtfl], chapter 9 of Yves Bertot and Pierre Casterán's
 [Interactive Theorem Proving and Program Development][coqart], some of
 Adam Chlipala's ideas on [Certified Programming with Dependent
-Types][cpdt], and section 6 of Ana Bove and Peter Dybjer's [Dependent
-Types at Work][dtw].)
+Types][cpdt], section 6 of Ana Bove and Peter Dybjer's [Dependent
+Types at Work][dtw], and section 3 of the [Typeclassopedia][tc].)
 
 (You can get the code at
 <https://github.com/jpvillaisaza/weak-strong/tree/master/weak-strong-functors/>.)
@@ -172,3 +170,4 @@ Types at Work][dtw].)
 [dtfl]:    http://www1.eafit.edu.co/asicard/courses/dtfl-CB0683/
 [dtw]:     http://link.springer.com/chapter/10.1007/978-3-642-03153-3_2
 [haskell]: http://www.haskell.org/
+[tc]:      https://www.haskell.org/haskellwiki/Typeclassopedia
